@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { IProduct } from './product';
-// import { ProductService } from './product.service';
+import { ProductService } from './product.service';
 
 @Component({
   templateUrl: './product-list.component.html',
@@ -12,7 +12,7 @@ export class ProductListComponent implements OnInit {
   imageWidth: number = 50;
   imageMargin: number = 2;
   showImage: boolean = false;
-  // errorMessage: string;
+  errorMessage: string;
 
   _listFilter: string;
   get listFilter(): string {
@@ -26,14 +26,14 @@ export class ProductListComponent implements OnInit {
   filteredProducts: IProduct[];
   products: IProduct[] = [];
 
-  // constructor(private _productService: ProductService) {
-  //
-  // }
-  //
-  // onRatingClicked(message: string): void {
-  //   this.pageTitle = 'Product List: ' + message;
-  // }
-  //
+  constructor(private _productService: ProductService) {
+
+  }
+
+  onRatingClicked(message: string): void {
+    this.pageTitle = 'Product List: ' + message;
+  }
+
   performFilter(filterBy: string): IProduct[] {
     filterBy = filterBy.toLocaleLowerCase();
     return this.products.filter((product: IProduct) =>
@@ -45,11 +45,11 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  //   this._productService.getProducts()
-  //     .subscribe(products => {
-  //         this.products = products;
-  //         this.filteredProducts = this.products;
-  //       },
-  //       error => this.errorMessage = <any>error);
+    this._productService.getProducts()
+      .subscribe(products => {
+          this.products = products;
+          this.filteredProducts = this.products;
+        },
+        error => this.errorMessage = <any>error);
   }
 }
